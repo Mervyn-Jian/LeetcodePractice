@@ -1,7 +1,8 @@
 class Solution {
 public:
     void setZeroes(vector<vector<int>>& matrix) {
-        vector<vector<int>> zeroLocs;
+        set<int> zeroRows;
+        set<int> zeroCols;
         int m = matrix.size();
         if(m<=0) return;
         int n = matrix[0].size();
@@ -9,19 +10,24 @@ public:
         
         for(int i=0; i<m; i++){
             for(int j=0; j<n; j++){
-                if(matrix[i][j]==0) zeroLocs.push_back({i, j});
+                if(matrix[i][j]==0){
+                    zeroRows.insert(i);
+                    zeroCols.insert(j);
+                }
             }
         }
         
-        for(int i=0; i<zeroLocs.size(); i++){
-            vector<int> loc = zeroLocs[i];
-            
+        for(auto row : zeroRows){
             for(int j=0; j<n; j++){
-                matrix[loc[0]][j] = 0;
-            }
-            for(int j=0; j<m; j++){
-                matrix[j][loc[1]] = 0;
+                matrix[row][j] = 0;
             }
         }
+        
+        for(auto col : zeroCols){
+            for(int j=0; j<m; j++){
+                matrix[j][col] = 0;
+            }
+        }
+        
     }
 };
